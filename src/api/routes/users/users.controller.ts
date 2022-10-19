@@ -1,8 +1,15 @@
+import TodoItemService from '@/services/todoItem';
+import UserService from '@/services/user';
+import { CreateTodoItemReqBody, CreateUserReqBody } from '@/types';
 import { Request, Response, NextFunction } from 'express';
+import Container from 'typedi';
 
 export const handleGetUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.json({ good: 'users' });
+    const userServiceInstance = Container.get(UserService);
+    const users = await userServiceInstance.getAllUser();
+
+    res.json(users);
   } catch (error) {
     next(error);
   }
@@ -10,7 +17,12 @@ export const handleGetUsers = async (req: Request, res: Response, next: NextFunc
 
 export const handleGetUserTodoItems = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.json({ good: 'handleGetUserTodoItems' });
+    const { userId } = req.params;
+
+    const TodoItemServiceInstance = Container.get(TodoItemService);
+    const todoList = await TodoItemServiceInstance.getUserTodoItems(userId);
+
+    res.json(todoList);
   } catch (error) {
     next(error);
   }
@@ -18,7 +30,12 @@ export const handleGetUserTodoItems = async (req: Request, res: Response, next: 
 
 export const handleCreateUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.json({ good: 'createUser' });
+    const userInfoToCreate = req.body as CreateUserReqBody;
+
+    const userServiceInstance = Container.get(UserService);
+    const users = await userServiceInstance.createUser(userInfoToCreate);
+
+    res.json(users);
   } catch (error) {
     next(error);
   }
@@ -26,7 +43,13 @@ export const handleCreateUser = async (req: Request, res: Response, next: NextFu
 
 export const handleCreateUserTodoItem = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.json({ good: 'handleCreateUserTodoItem' });
+    const { userId } = req.params;
+    const TodoInfoToCreate = req.body as CreateTodoItemReqBody;
+
+    const TodoItemServiceInstance = Container.get(TodoItemService);
+    const todoList = await TodoItemServiceInstance.createUserTodoItem(TodoInfoToCreate, userId);
+
+    res.json(todoList);
   } catch (error) {
     next(error);
   }
@@ -34,7 +57,12 @@ export const handleCreateUserTodoItem = async (req: Request, res: Response, next
 
 export const handleGetUserDetail = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.json({ good: 'userDetail' });
+    const { userId } = req.params;
+
+    const userServiceInstance = Container.get(UserService);
+    const users = await userServiceInstance.getUserDetail(userId);
+
+    res.json(users);
   } catch (error) {
     next(error);
   }
@@ -42,7 +70,12 @@ export const handleGetUserDetail = async (req: Request, res: Response, next: Nex
 
 export const handleDeleteUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    res.json({ good: 'deleteUser' });
+    const { userId } = req.params;
+
+    const userServiceInstance = Container.get(UserService);
+    await userServiceInstance.deleteUser(userId);
+
+    res.status(204).end();
   } catch (error) {
     next(error);
   }

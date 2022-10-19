@@ -1,30 +1,23 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { PriorityType } from '@/types';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import UserEntity from './user';
 
-@Entity({ name: 'todoItem' })
-class TodoItemEntity {
-  @PrimaryGeneratedColumn('uuid')
-  uid: string;
+@Entity({ name: 'todoList' })
+class TodoListEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column('text')
   contents: string;
 
-  @Column('text')
-  priority: string;
+  @Column({ type: 'enum', enum: ['NONE', 'FIRST', 'SECOND'], default: 'NONE' })
+  priority: PriorityType;
 
-  @Column('boolean')
+  @Column({ type: 'boolean', default: false })
   isCompleted: boolean;
 
-  @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamp' })
-  updatedAt: Date;
+  @ManyToOne(() => UserEntity, user => user.todoList, { onDelete: 'CASCADE' })
+  user: UserEntity;
 }
 
-export default TodoItemEntity;
+export default TodoListEntity;

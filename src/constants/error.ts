@@ -11,8 +11,12 @@ export const ERROR = {
     statusCode: 401,
     message: 'Unauthorized',
   },
-  CONFLICT: {
+  CANT_NOT_FOUND_USER: {
     statusCode: 409,
-    message: 'already exist',
+    message: '해당 유저를 찾을 수 없습니다.',
+  },
+  ALREADY_EXIST: {
+    statusCode: 409,
+    message: '이미 존재하는 Name입니다.',
   },
 };

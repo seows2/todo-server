@@ -10,6 +10,7 @@ import {
   handleUpdateUserOneTodoItemPriority,
   handleUpdateUserOneTodoItemCompleted,
   handleGetUserTodoItems,
+  handleDeleteUser,
 } from './users.controller';
 
 const userRouter = Router();
@@ -24,7 +25,7 @@ export default (router: Router) => {
   userRouter.post('/', handleCreateUser);
   userRouter.post('/:userId/items', handleCreateUserTodoItem);
 
-  userRouter.delete('/:userId', handleGetUserDetail);
+  userRouter.delete('/:userId', handleDeleteUser);
   userRouter.delete('/:userId/items', handleDeleteUserAllTodoItem);
   userRouter.delete('/:userId/items/:itemId', handleDeleteUserOneTodoItem);
 

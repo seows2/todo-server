@@ -1,28 +1,16 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import TodoItemEntity from './todoItem';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import TodoListEntity from './todoItem';
 
 @Entity({ name: 'user' })
 class UserEntity {
-  @PrimaryGeneratedColumn('uuid')
-  uid: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column('varchar', { length: 30, unique: true })
   name: string;
 
-  @Column(() => TodoItemEntity)
-  todoList: TodoItemEntity;
-
-  @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamp' })
-  updatedAt: Date;
+  @OneToMany(() => TodoListEntity, todoList => todoList.user)
+  todoList: TodoListEntity[];
 }
 
 export default UserEntity;
