@@ -5,7 +5,8 @@
   "main": "src/app.ts",
   "scripts": {
     "dev": "env-cmd -f .env.dev nodemon --exec ts-node -r tsconfig-paths/register ./src/bin/www.ts --watch ./src -e ts",
-    "start": "NODE_ENV=production env-cmd ts-node -r tsconfig-paths/register ./src/bin/www.ts",
+    "start": "NODE_ENV=production env-cmd ts-node -r tsconfig-paths/register ./dist/src/bin/www.js",
+    "build": "tsc",
     "test": "jest",
     "test:watch": "jest --watchAll",
     "test:coverage": "jest --coverage"
