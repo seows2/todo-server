@@ -1,6 +1,11 @@
 import TodoItemService from '@/services/todoItem';
 import UserService from '@/services/user';
-import { CreateTodoItemReqBody, CreateUserReqBody } from '@/types';
+import {
+  CreateTodoItemReqBody,
+  CreateUserReqBody,
+  UpdateTodoItemContents,
+  UpdateTodoItemPriority,
+} from '@/types';
 import { Request, Response, NextFunction } from 'express';
 import Container from 'typedi';
 
@@ -87,7 +92,12 @@ export const handleDeleteUserAllTodoItem = async (
   next: NextFunction,
 ) => {
   try {
-    res.json({ good: 'handleDeleteUsersAllTodoItem' });
+    const { userId } = req.params;
+
+    const TodoItemServiceInstance = Container.get(TodoItemService);
+    await TodoItemServiceInstance.deleteUserAllTodoItem(userId);
+
+    res.status(204).end();
   } catch (error) {
     next(error);
   }
@@ -99,7 +109,12 @@ export const handleDeleteUserOneTodoItem = async (
   next: NextFunction,
 ) => {
   try {
-    res.json({ good: 'handleDeleteUserOneTodoItem' });
+    const { userId, itemId } = req.params;
+
+    const TodoItemServiceInstance = Container.get(TodoItemService);
+    const users = TodoItemServiceInstance.deleteUserOneTodoItem(userId, itemId);
+
+    res.json(users);
   } catch (error) {
     next(error);
   }
@@ -111,7 +126,17 @@ export const handleUpdateUserOneTodoItemContents = async (
   next: NextFunction,
 ) => {
   try {
-    res.json({ good: 'handleUpdateUserOneTodoItem' });
+    const { userId, itemId } = req.params;
+    const { contents } = req.body as UpdateTodoItemContents;
+
+    const TodoItemServiceInstance = Container.get(TodoItemService);
+    const updatedTodoItem = await TodoItemServiceInstance.updateUserTodoItemContents(
+      userId,
+      itemId,
+      contents,
+    );
+
+    res.json(updatedTodoItem);
   } catch (error) {
     next(error);
   }
@@ -123,7 +148,17 @@ export const handleUpdateUserOneTodoItemPriority = async (
   next: NextFunction,
 ) => {
   try {
-    res.json({ good: 'handleUpdateUserOneTodoItem' });
+    const { userId, itemId } = req.params;
+    const { priority } = req.body as UpdateTodoItemPriority;
+
+    const TodoItemServiceInstance = Container.get(TodoItemService);
+    const updatedTodoItem = await TodoItemServiceInstance.updateUserTodoItemContents(
+      userId,
+      itemId,
+      priority,
+    );
+
+    res.json(updatedTodoItem);
   } catch (error) {
     next(error);
   }
@@ -135,7 +170,15 @@ export const handleUpdateUserOneTodoItemCompleted = async (
   next: NextFunction,
 ) => {
   try {
-    res.json({ good: 'handleUpdateUserOneTodoItemCompleted' });
+    const { userId, itemId } = req.params;
+
+    const TodoItemServiceInstance = Container.get(TodoItemService);
+    const updatedTodoItem = await TodoItemServiceInstance.updateUserTodoItemCompleted(
+      userId,
+      itemId,
+    );
+
+    res.json(updatedTodoItem);
   } catch (error) {
     next(error);
   }

@@ -15,6 +15,10 @@ export const ERROR = {
     statusCode: 409,
     message: '해당 유저를 찾을 수 없습니다.',
   },
+  CANT_NOT_FOUND_TODOITEM: {
+    statusCode: 409,
+    message: '해당 아이템을 찾을 수 없습니다.',
+  },
   ALREADY_EXIST: {
     statusCode: 409,
     message: '이미 존재하는 Name입니다.',
