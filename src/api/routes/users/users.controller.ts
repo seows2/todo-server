@@ -152,7 +152,7 @@ export const handleUpdateUserOneTodoItemPriority = async (
     const { priority } = req.body as UpdateTodoItemPriority;
 
     const TodoItemServiceInstance = Container.get(TodoItemService);
-    const updatedTodoItem = await TodoItemServiceInstance.updateUserTodoItemContents(
+    const updatedTodoItem = await TodoItemServiceInstance.updateUserTodoItemPriority(
       userId,
       itemId,
       priority,
