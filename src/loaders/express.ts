@@ -7,6 +7,7 @@ import ErrorResponse from '@/utils/errorResponse';
 import errorHandler from '@/api/middlewares/error';
 import { ERROR } from '@/constants/error';
 import cookieParser from 'cookie-parser';
+import { openapiSpecification, swaggerUi } from '@/swagger';
 
 export default (app: Express) => {
   app.use(express.json());
@@ -16,7 +17,7 @@ export default (app: Express) => {
   app.use(morgan(process.env.NODE_ENV === 'development' ? 'dev' : 'combined'));
 
   app.use(config.api.prefix, routes());
-
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
   app.all('*', (_req, _res, next) => {
     next(new ErrorResponse(ERROR.NOT_FOUND));
   });
