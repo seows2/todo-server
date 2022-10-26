@@ -95,9 +95,9 @@ export const handleDeleteUserAllTodoItem = async (
     const { userId } = req.params;
 
     const TodoItemServiceInstance = Container.get(TodoItemService);
-    await TodoItemServiceInstance.deleteUserAllTodoItem(userId);
+    const users = await TodoItemServiceInstance.deleteUserAllTodoItem(userId);
 
-    res.status(204).end();
+    res.json(users);
   } catch (error) {
     next(error);
   }
@@ -112,7 +112,7 @@ export const handleDeleteUserOneTodoItem = async (
     const { userId, itemId } = req.params;
 
     const TodoItemServiceInstance = Container.get(TodoItemService);
-    const users = TodoItemServiceInstance.deleteUserOneTodoItem(userId, itemId);
+    const users = await TodoItemServiceInstance.deleteUserOneTodoItem(userId, itemId);
 
     res.json(users);
   } catch (error) {

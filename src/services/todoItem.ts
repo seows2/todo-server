@@ -48,6 +48,10 @@ class TodoItemService {
     }
 
     await this.todoItemRepository.deleteAllTodoItem(targetUser);
+
+    const user = await this.userRepository.findByUserId(userId);
+
+    return user;
   }
 
   async deleteUserOneTodoItem(userId: string, itemId: string) {
@@ -57,7 +61,7 @@ class TodoItemService {
     }
     const targetTodoItem = await this.todoItemRepository.findById(itemId);
     if (!targetTodoItem) {
-      throw new ErrorResponse(ERROR.CANT_NOT_FOUND_USER);
+      throw new ErrorResponse(ERROR.CANT_NOT_FOUND_TODOITEM);
     }
 
     await this.todoItemRepository.deleteOneTodoItem(targetTodoItem);
@@ -74,7 +78,7 @@ class TodoItemService {
     }
     const targetTodoItem = await this.todoItemRepository.findById(itemId);
     if (!targetTodoItem) {
-      throw new ErrorResponse(ERROR.CANT_NOT_FOUND_USER);
+      throw new ErrorResponse(ERROR.CANT_NOT_FOUND_TODOITEM);
     }
 
     const updatedTodoItem = await this.todoItemRepository.updateTodoItem(targetTodoItem, {
@@ -91,7 +95,7 @@ class TodoItemService {
     }
     const targetTodoItem = await this.todoItemRepository.findById(itemId);
     if (!targetTodoItem) {
-      throw new ErrorResponse(ERROR.CANT_NOT_FOUND_USER);
+      throw new ErrorResponse(ERROR.CANT_NOT_FOUND_TODOITEM);
     }
 
     const updatedTodoItem = await this.todoItemRepository.updateTodoItem(targetTodoItem, {
@@ -108,7 +112,7 @@ class TodoItemService {
     }
     const targetTodoItem = await this.todoItemRepository.findById(itemId);
     if (!targetTodoItem) {
-      throw new ErrorResponse(ERROR.CANT_NOT_FOUND_USER);
+      throw new ErrorResponse(ERROR.CANT_NOT_FOUND_TODOITEM);
     }
 
     const updatedTodoItem = await this.todoItemRepository.updateTodoItem(targetTodoItem, {
