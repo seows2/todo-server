@@ -139,7 +139,7 @@ export default (router: Router) => {
    *    parameters:
    *      - name: userId
    *        in: path
-   *        description: TodoItem목록을 불러오고자 하는 유저ID
+   *        description: 불러오고자 하는 유저ID
    *        required: true
    *        schema:
    *          type: number
@@ -169,7 +169,7 @@ export default (router: Router) => {
    *    parameters:
    *      - name: userId
    *        in: path
-   *        description: TodoItem목록을 추가하고자 하는 유저ID
+   *        description: 추가하고자 하는 유저ID
    *        required: true
    *        schema:
    *          type: number
@@ -201,10 +201,28 @@ export default (router: Router) => {
    * @openapi
    * /api/users/{userId}/items:
    *  delete:
-   *    description: "유저의 TodoItem을 전부 삭제한다."
+   *    description: 유저의 모든 TodoItem을 삭제한다.
+   *    summary: User의 모든 TodoItem 삭제하기
+   *    parameters:
+   *      - name: userId
+   *        in: path
+   *        description: 모두 삭제하고자 하는 유저ID
+   *        required: true
+   *        schema:
+   *          type: number
    *    responses:
    *        '200':
-   *          description: "asdasdasd"
+   *          description: "요청이 성공한 경우"
+   *          content:
+   *            application/json:
+   *              schema:
+   *                $ref: "#/definitions/User"
+   *        '409':
+   *          description: "유저가 존재하지 않은 경우"
+   *          content:
+   *            application/json:
+   *              schema:
+   *                $ref: "#/definitions/ErrResponse"
    */
   userRouter.delete('/:userId/items', handleDeleteUserAllTodoItem);
 
@@ -213,9 +231,33 @@ export default (router: Router) => {
    * /api/users/{userId}/items/{itemId}:
    *  delete:
    *    description: "유저의 TodoItem을 1개 삭제한다."
+   *    summary: User의 TodoItem 1개 삭제하기
+   *    parameters:
+   *      - name: userId
+   *        in: path
+   *        description: 삭제하고자 하는 유저ID
+   *        required: true
+   *        schema:
+   *          type: number
+   *      - name: itemId
+   *        in: path
+   *        description: 삭제하고자 하는 TodoItemID
+   *        required: true
+   *        schema:
+   *          type: number
    *    responses:
    *        '200':
-   *          description: "asdasdasd"
+   *          description: "요청이 성공한 경우"
+   *          content:
+   *            application/json:
+   *              schema:
+   *                $ref: "#/definitions/User"
+   *        '409':
+   *          description: "유저가 존재하지 않거나, TodoItem이 존재하지 않는 경우"
+   *          content:
+   *            application/json:
+   *              schema:
+   *                $ref: "#/definitions/ErrResponse"
    */
   userRouter.delete('/:userId/items/:itemId', handleDeleteUserOneTodoItem);
 
@@ -224,9 +266,41 @@ export default (router: Router) => {
    * /api/users/{userId}/items/{itemId}:
    *  put:
    *    description: "유저의 TodoItem 내용을 수정한다."
+   *    summary: User의 TodoItem 내용 수정하기
+   *    parameters:
+   *      - name: userId
+   *        in: path
+   *        description: 수정하고자 하는 유저ID
+   *        required: true
+   *        schema:
+   *          type: number
+   *      - name: itemId
+   *        in: path
+   *        description: 수정하고자 하는 TodoItemID
+   *        required: true
+   *        schema:
+   *          type: number
    *    responses:
    *        '200':
-   *          description: "asdasdasd"
+   *          description: "요청이 성공한 경우"
+   *          content:
+   *            application/json:
+   *              schema:
+   *                type: array
+   *                items:
+   *                  $ref: "#/definitions/TodoItem"
+   *        '400':
+   *          description: "잘못된 Body가 넘어온 경우"
+   *          content:
+   *            application/json:
+   *              schema:
+   *                $ref: "#/definitions/ErrResponse"
+   *        '409':
+   *          description: "유저가 존재하지 않거나, TodoItem이 존재하지 않는 경우"
+   *          content:
+   *            application/json:
+   *              schema:
+   *                $ref: "#/definitions/ErrResponse"
    */
   userRouter.put(
     '/:userId/items/:itemId',
@@ -236,12 +310,44 @@ export default (router: Router) => {
 
   /**
    * @openapi
-   * /api/users/{userId}:
+   * /api/users/{userId}/items/{itemId}/priority:
    *  put:
-   *    description: "유저의 TodoItem 완료여부를 토글한다."
+   *    description: "유저의 TodoItem 우선순위를 수정한다."
+   *    summary: User의 TodoItem 우선순위 수정하기
+   *    parameters:
+   *      - name: userId
+   *        in: path
+   *        description: 수정하고자 하는 유저ID
+   *        required: true
+   *        schema:
+   *          type: number
+   *      - name: itemId
+   *        in: path
+   *        description: 수정하고자 하는 TodoItemID
+   *        required: true
+   *        schema:
+   *          type: number
    *    responses:
    *        '200':
-   *          description: "asdasdasd"
+   *          description: "요청이 성공한 경우"
+   *          content:
+   *            application/json:
+   *              schema:
+   *                type: array
+   *                items:
+   *                  $ref: "#/definitions/TodoItem"
+   *        '400':
+   *          description: "잘못된 Body가 넘어온 경우"
+   *          content:
+   *            application/json:
+   *              schema:
+   *                $ref: "#/definitions/ErrResponse"
+   *        '409':
+   *          description: "유저가 존재하지 않거나, TodoItem이 존재하지 않는 경우"
+   *          content:
+   *            application/json:
+   *              schema:
+   *                $ref: "#/definitions/ErrResponse"
    */
   userRouter.put(
     '/:userId/items/:itemId/priority',
@@ -251,12 +357,38 @@ export default (router: Router) => {
 
   /**
    * @openapi
-   * /api/users/{userId}:
+   * /api/users/{userId}/items/{itemId}/toggle:
    *  put:
-   *    description: "특정 유저의 정보를 조회한다."
+   *    description: "유저의 TodoItem을 complete여부를 토글한다."
+   *    summary: User의 TodoItem complete toggle
+   *    parameters:
+   *      - name: userId
+   *        in: path
+   *        description: 수정하고자 하는 유저ID
+   *        required: true
+   *        schema:
+   *          type: number
+   *      - name: itemId
+   *        in: path
+   *        description: 수정하고자 하는 TodoItemID
+   *        required: true
+   *        schema:
+   *          type: number
    *    responses:
    *        '200':
-   *          description: "asdasdasd"
+   *          description: "요청이 성공한 경우"
+   *          content:
+   *            application/json:
+   *              schema:
+   *                type: array
+   *                items:
+   *                  $ref: "#/definitions/TodoItem"
+   *        '409':
+   *          description: "유저가 존재하지 않거나, TodoItem이 존재하지 않는 경우"
+   *          content:
+   *            application/json:
+   *              schema:
+   *                $ref: "#/definitions/ErrResponse"
    */
   userRouter.put('/:userId/items/:itemId/toggle', handleUpdateUserOneTodoItemCompleted);
 
