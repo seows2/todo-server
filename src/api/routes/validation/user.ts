@@ -6,6 +6,7 @@ export const createUserValidation = (req: Request, _: Response, next: NextFuncti
   const schema = Joi.object({
     name: Joi.string().required().min(2).messages({
       'any.required': 'name을 입력해주세요.',
+      'string.empty': 'name을 입력해주세요.',
       'string.min': 'name을 두 글자 이상 입력해주세요.',
     }),
   });
@@ -51,7 +52,8 @@ export const updateUserTodoItemContentsValidation = (
       'any.required': 'itemId을 입력해주세요.',
     }),
     contents: Joi.string().required().messages({
-      'any.required': 'contents을 입력해주세요.',
+      'any.required': 'contents를 입력해주세요.',
+      'string.empty': 'contents를 입력해주세요.',
     }),
   });
 
@@ -78,6 +80,7 @@ export const updateUserTodoItemPriorityValidation = (
     }),
     priority: Joi.any().required().valid('NONE', 'FIRST', 'SECOND').messages({
       'any.required': 'priority을 입력해주세요.',
+      'any.empty': 'priority을 입력해주세요.',
       'any.only': 'priority는 [NONE, FIRST, SECOND]중 하나의 값이 허용됩니다.',
     }),
   });

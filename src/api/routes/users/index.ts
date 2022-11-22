@@ -53,7 +53,7 @@ export default (router: Router) => {
    *      content:
    *        application/json:
    *          schema:
-   *            $ref: "#/definitions/UserCreateReq"
+   *            $ref: "#/definitions/CreateUserReq"
    *    responses:
    *        '200':
    *          description: "요청이 성공한 경우"
@@ -165,7 +165,7 @@ export default (router: Router) => {
    *      content:
    *        application/json:
    *          schema:
-   *            $ref: "#/definitions/TodoCreateReq"
+   *            $ref: "#/definitions/CreateTodoReq"
    *    parameters:
    *      - name: userId
    *        in: path
@@ -280,6 +280,11 @@ export default (router: Router) => {
    *        required: true
    *        schema:
    *          type: number
+   *    requestBody:
+   *      content:
+   *        application/json:
+   *          schema:
+   *            $ref: "#/definitions/UpdateTodoContentsReq"
    *    responses:
    *        '200':
    *          description: "요청이 성공한 경우"
@@ -327,6 +332,11 @@ export default (router: Router) => {
    *        required: true
    *        schema:
    *          type: number
+   *    requestBody:
+   *      content:
+   *        application/json:
+   *          schema:
+   *            $ref: "#/definitions/UpdateTodoPriorityReq"
    *    responses:
    *        '200':
    *          description: "요청이 성공한 경우"
@@ -422,18 +432,30 @@ export default (router: Router) => {
  *         type: "array"
  *         items:
  *            $ref: "#/definitions/TodoItem"
- *   UserCreateReq:
+ *   CreateUserReq:
  *     type: "object"
  *     properties:
  *       name:
  *         type: "string"
  *         example: "testUser1"
- *   TodoCreateReq:
+ *   CreateTodoReq:
  *     type: "object"
  *     properties:
  *       contents:
  *         type: "string"
  *         example: "testContents1"
+ *   UpdateTodoContentsReq:
+ *     type: "object"
+ *     properties:
+ *       contents:
+ *         type: "string"
+ *         example: "updateContents1"
+ *   UpdateTodoPriorityReq:
+ *     type: "object"
+ *     properties:
+ *       priority:
+ *         type: "string"
+ *         example: "FIRST"
  *   ErrResponse:
  *     type: "object"
  *     properties:
