@@ -267,6 +267,11 @@ export default (router: Router) => {
    *  put:
    *    description: "유저의 TodoItem 내용을 수정한다."
    *    summary: User의 TodoItem 내용 수정하기
+   *    requestBody:
+   *      content:
+   *        application/json:
+   *          schema:
+   *            $ref: "#/definitions/UpdateTodoContentsReq"
    *    parameters:
    *      - name: userId
    *        in: path
@@ -280,11 +285,6 @@ export default (router: Router) => {
    *        required: true
    *        schema:
    *          type: number
-   *    requestBody:
-   *      content:
-   *        application/json:
-   *          schema:
-   *            $ref: "#/definitions/UpdateTodoContentsReq"
    *    responses:
    *        '200':
    *          description: "요청이 성공한 경우"
@@ -319,6 +319,11 @@ export default (router: Router) => {
    *  put:
    *    description: "유저의 TodoItem 우선순위를 수정한다."
    *    summary: User의 TodoItem 우선순위 수정하기
+   *    requestBody:
+   *      content:
+   *        application/json:
+   *          schema:
+   *            $ref: "#/definitions/UpdateTodoPriorityReq"
    *    parameters:
    *      - name: userId
    *        in: path
@@ -332,11 +337,6 @@ export default (router: Router) => {
    *        required: true
    *        schema:
    *          type: number
-   *    requestBody:
-   *      content:
-   *        application/json:
-   *          schema:
-   *            $ref: "#/definitions/UpdateTodoPriorityReq"
    *    responses:
    *        '200':
    *          description: "요청이 성공한 경우"
@@ -455,6 +455,10 @@ export default (router: Router) => {
  *     properties:
  *       priority:
  *         type: "string"
+ *         enum:
+ *            - NONE
+ *            - FIRST
+ *            - SECOND
  *         example: "FIRST"
  *   ErrResponse:
  *     type: "object"
